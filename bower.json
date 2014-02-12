@@ -1,0 +1,18 @@
+{
+  "name": "galaxy",
+  "version": "0.1.0",
+  "main": ["src/galaxy.html"],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test",
+    "example"
+  ],
+  "dependencies": {
+	  "angular": "~1.2.11"
+  },
+  "devDependencies": {
+    "angular-animate": "~1.2.9"
+  }
+}

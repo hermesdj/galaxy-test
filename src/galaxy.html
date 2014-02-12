@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="galaxy">
+	<head>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" class="lazyload" />
+		<link rel="stylesheet" href="galaxy.css" class="lazyload" />
+
+		<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="galaxy.js"></script>
+	</head>
+	<body>
+		<div id="galaxy" ng-controller="SystemController">
+			<div id="form">
+				<input type="checkbox" ng-model="options.drawOrbits" /> Draw Orbits <br />
+				<span>Angle : {{angle}}</span><br />
+				<span>Date : {{date | date:'dd/MM/yyyy'}}</span>
+				<span>DOY : {{d}}</span>
+				<br />
+				<span>Current : {{current.name}}</span>
+				<br />
+				<button ng-click="pause()"><span ng-show="stop">P</span><span ng-hide="stop">R</span></button>
+				<button ng-click="zoom(2)">+</button><button ng-click="zoom(0.5)">-</button>
+				<br />
+			</div>
+			<svg height="100%" width="100%">
+				<g transform="translate(300, 300) scale({{z}})">
+					<g>
+						<circle ng-click="select(center)" cx="0" cy="0" r="{{center.radius}}" stroke="black" stroke-width="1" fill="{{center.color}}"></circle>
+					</g>
+					<g ng-show="options.drawPlanets">
+						<g ng-repeat="planet in planets">
+							<circle ng-show="options.drawOrbits" cx="0" cy="0" r="{{planet.distance}}" stroke="black" stroke-width=".5" fill="none"></circle>
+							<circle cx="{{getCx(planet)}}" ng-click="select(planet)" cy="{{getCy(planet)}}" r="{{planet.size}}" fill="{{planet.color}}"></circle>
+							<g ng-repeat="moon in planet.moons" transform="translate({{getCx(planet)}}, {{getCy(planet)}})" stroke="black" stroke-width=".5" fill="none">
+								<circle ng-show="options.drawMoonsOrbits" cx="0" cy="0" r="{{moon.distance}}"></circle>
+								<circle ng-show="options.drawMoons" cx="{{getCx(moon)}}" cy="{{getCy(moon)}}" r="{{moon.size}}" fill="{{moon.color}}"></circle>
+							</g>
+						</g>
+					</g>
+				</g>
+			</svg>
+		</div>
+	</body>
+</html>
