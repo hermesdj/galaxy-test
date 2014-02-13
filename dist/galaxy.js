@@ -1,7 +1,7 @@
-/**
- * http://nineplanets.org/data.html#0
+/*! galaxy - v0.1.0 - 2014-02-13
+ * https://github.com/hermesdj/galaxy
+ * Copyright (c) Jeremy Dallard <dallardj@gmail.com> 2014 Licensed  
  */
-
 angular.module("galaxy", ['monospaced.mousewheel']);
 
 Date.prototype.getDOY = function() {
@@ -56,8 +56,8 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 			$scope.doy = $scope.date.getDOY();
 			$scope.d = $scope.doy;
 			
-			var startX = 500;
-			var startY = 400;
+			var startX = 300;
+			var startY = 300;
 			
 			$scope.mousedown = function(event){
 				event.preventDefault();
@@ -80,9 +80,8 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 				$scope.x = dx;
 			};
 			
-			$scope.zoom = function($event, $delta){
-				//console.log($event);
-				// TODO : Lot of changes ^^
+			$scope.zoom = function($delta){
+				$scope.pZ = $scope.z;
 				if($delta < 0){
 					if($scope.z <= $scope.options.zoom.min){return;}
 					if($scope.z <= 1){
@@ -106,6 +105,7 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 			$scope.x = startX;
 			$scope.y = startY;
 			$scope.z = 1;
+			$scope.pZ = 1;
 			
 			function calculateOrbitalSpeed(orbit){
 				orbit.orbitalSpeed = Math.round((36000 / orbit.period)) / 100;
@@ -156,3 +156,12 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 	};
 });
 
+
+angular.module('galaxy').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('templates/system.html',
+    "<svg height=\"100%\" width=\"100%\" msd-wheel=\"zoom($delta)\" ng-mousedown=\"mousedown($event)\" class=\"stellar-system-drawing\"><clippath><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\"></clippath><g ng-attr-transform=\"translate({{x}}, {{y}}) scale({{z}})\"><g><circle ng-click=\"select(system.star)\" ng-attr-cx=\"0\" ng-attr-cy=\"0\" ng-attr-r=\"{{system.star.radius}}\" ng-attr-stroke=\"black\" ng-attr-stroke-width=\"1\" ng-attr-fill=\"{{system.star.color}}\"></circle><text x=\"0\" y=\"0\" fill=\"black\" font-size=\"15\">{{system.star.name}}</text></g><g><g ng-repeat=\"planet in system.star.orbits\" class=\"planet-group\" ng-attr-transform=\"rotate({{getRotation(planet)}})\"><circle class=\"orbit planet-orbit\" ng-show=\"options.drawOrbits\" cx=\"0\" cy=\"0\" ng-attr-r=\"{{planet.distance}}\" stroke=\"black\" stroke-width=\".5\" fill=\"none\"></circle><g ng-show=\"options.drawPlanets\" ng-attr-transform=\"translate({{planet.distance}}, 0)\"><circle ng-click=\"select(planet)\" class=\"stellar-object planet-circle\" ng-attr-cx=\"0\" ng-attr-cy=\"0\" ng-attr-r=\"{{planet.size}}\" ng-attr-fill=\"{{planet.color}}\"></circle><g ng-repeat=\"moon in planet.orbits\" ng-attr-transform=\"rotate({{getRotation(moon)}})\"><circle class=\"orbit moon-orbit\" ng-show=\"options.drawMoonsOrbits\" cx=\"0\" cy=\"0\" ng-attr-r=\"{{moon.distance}}\" stroke=\"black\" stroke-width=\".2\" fill=\"none\"></circle><g class=\"moon\" ng-attr-transform=\"translate({{moon.distance}}, 0)\"><circle class=\"stellar-object moon-circle\" ng-show=\"options.drawMoons\" ng-attr-cx=\"0\" ng-attr-cy=\"0\" ng-attr-r=\"{{moon.size}}\" ng-attr-fill=\"{{moon.color}}\"></circle></g></g></g></g></g></g></svg>"
+  );
+
+}]);

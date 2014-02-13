@@ -67,6 +67,10 @@ module.exports = function(grunt) {
 						files : 'Gruntfile.js',
 						tasks : [ 'build' ]
 					},
+					ngtemplates : {
+						files : [ 'src/templates/*.html' ],
+						tasks : [ 'ngtemplates' ]
+					},
 					livereload : {
 						files : [ 'src/*.*' ],
 						options : {
@@ -76,6 +80,20 @@ module.exports = function(grunt) {
 					karma : {
 						files : [ 'test/**/*.js' ],
 						tasks : [ 'karma:unit:run' ]
+					}
+				},
+				
+				ngtemplates : {
+					galaxy : {
+						cwd : 'src',
+						src : 'templates/**.html',
+						dest : '<%= config.dist %>/<%= pkg.name %>.tpl.js',
+						options : {
+							htmlmin : {
+								collapseWhitespace : true,
+								collapseBooleanAttributes : true
+							}
+						}
 					}
 				},
 
@@ -91,6 +109,6 @@ module.exports = function(grunt) {
 	// Creates the `server` task
 	grunt.registerTask('server', [ 'express', 'open', 'karma:unit',
 			'watch' ]);
-	grunt.registerTask('build', [ 'clean', 'karma', 'concat', 'uglify' ]);
+	grunt.registerTask('build', [ 'clean', 'karma', 'concat', 'uglify', 'ngtemplates' ]);
 	grunt.registerTask('default', [ 'karma:unit', 'watch' ]);
 };
