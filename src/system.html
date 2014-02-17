@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="galaxy">
+	<head>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" class="lazyload" />
+		<link rel="stylesheet" href="galaxy.css" class="lazyload" />
+
+		<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="../bower_components/hamsterjs/hamster.js"></script>
+		<script type="text/javascript" src="../bower_components/angular-mousewheel/mousewheel.js"></script>
+		
+		<script type="text/javascript" src="galaxy.js"></script>
+		<script type="text/javascript" src="../dist/galaxy.tpl.js"></script>
+	</head>
+	<body>
+		 <div id="galaxy" class="stellar-system" ng-controller="TestController">
+			<galaxy-system></galaxy-system>
+			<div id="form">
+				<input type="checkbox" ng-model="options.drawOrbits" /> Draw Orbits 
+				<input type="checkbox" ng-model="options.drawMoonsOrbits" /> Draw Moons Orbits
+				<input type="checkbox" ng-model="options.drawPlanets" /> Draw Planets
+				<input type="checkbox" ng-model="options.drawMoons" /> Draw Moons
+				<br />
+				<span>Angle : {{angle}}</span><br />
+				<span>Date : {{date | date:'dd/MM/yyyy'}}</span>
+				<span>DOY : {{d}}</span>
+				<br />
+				<span>Current : <strong>{{current.name}}</strong></span> <span ng-show="current.orbitalSpeed">({{current.orbitalSpeed}}°/day)</span>
+				<br />
+				<button ng-click="pause()"><span ng-show="stop">P</span><span ng-hide="stop">R</span></button>
+				<button ng-click="zoom(1)">+</button><button ng-click="zoom(-1)">-</button>
+				<br />
+				<span>Zoom : {{z}}</span>
+			</div>
+		</div>
+	</body>
+</html>

@@ -12,23 +12,19 @@ Date.prototype.getDOY = function()
 };
 angular.module('galaxy').controller('TestController', function($scope)
 {
-	$scope.options =
-	{
+	$scope.options = {
 		drawOrbits: true,
 		drawPlanets: true,
 		drawMoons: true,
 		drawMoonsOrbits: true,
-		zoom:
-		{
+		zoom: {
 			min: 0.20,
 			max: 7,
 			current: 1
 		}
 	};
-	$scope.system =
-	{
-		star:
-		{
+	$scope.system = {
+		star: {
 			name: "Sol",
 			radius: 20,
 			color: 'yellow',
@@ -40,16 +36,14 @@ angular.module('galaxy').controller('TestController', function($scope)
 					color: 'maroon',
 					size: 2,
 					startAngle: 1.5
-				},
-				{
+				},{
 					name: "Venus",
 					distance: 108,
 					period: 224,
 					color: 'purple',
 					size: 7,
 					startAngle: 1
-				},
-				{
+				},{
 					name: "Earth",
 					distance: 149,
 					color: "blue",
@@ -66,8 +60,7 @@ angular.module('galaxy').controller('TestController', function($scope)
 							startAngle: 1
 						}
 					]
-				},
-				{
+				},{
 					name: "Mars",
 					distance: 227,
 					color: "red",
@@ -81,8 +74,7 @@ angular.module('galaxy').controller('TestController', function($scope)
 							size: 0.3,
 							period: 0.32,
 							startAngle: 2
-						},
-						{
+						},{
 							name: "Deimos",
 							distance: 5.23,
 							size: 0.6,
@@ -90,40 +82,35 @@ angular.module('galaxy').controller('TestController', function($scope)
 							startAngle: 0.7
 						}
 					]
-				},
-				{
+				},{
 					name: "Jupiter",
 					distance: 778,
 					period: 4332,
 					color: 'orange',
 					size: 15,
 					startAngle: 2
-				},
-				{
+				},{
 					name: "Saturn",
 					distance: 1429,
 					color: 'midnightblue',
 					period: 10759,
 					size: 10,
 					startAngle: 0.7
-				},
-				{
+				},{
 					name: "Uranus",
 					distance: 2870,
 					period: 30685,
 					size: 5,
 					color: 'black',
 					startAngle: 5.7
-				},
-				{
+				},{
 					name: "Neptune",
 					distance: 4504,
 					period: 60190,
 					size: 4,
 					color: 'lightseagreen',
 					startAngle: 1.3
-				},
-				{
+				},{
 					name: "Pluto",
 					distance: 5913,
 					period: 90550,
@@ -137,8 +124,7 @@ angular.module('galaxy').controller('TestController', function($scope)
 });
 angular.module('galaxy').directive('galaxySystem', function($interval, $document)
 {
-	return
-	{
+	return {
 		restrict: 'EA',
 		templateUrl: 'templates/system.html',
 		replace: true,
@@ -220,13 +206,13 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 				orbit.orbitalSpeed = Math.round((36000 / orbit.period)) / 100;
 				if (orbit.orbits)
 				{
-					for (var key in orbit.orbits)
+					for ( var key in orbit.orbits)
 					{
 						calculateOrbitalSpeed(orbit.orbits[key]);
 					};
 				};
 			}
-			for (var key in $scope.system.star.orbits)
+			for ( var key in $scope.system.star.orbits)
 			{
 				calculateOrbitalSpeed($scope.system.star.orbits[key]);
 			}
