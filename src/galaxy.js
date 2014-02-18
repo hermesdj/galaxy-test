@@ -255,3 +255,4 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 		}
 	};
 });
+

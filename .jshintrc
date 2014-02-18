@@ -83,7 +83,7 @@
 	// These options pre-define global variables that are exposed by
 	// popular JavaScript libraries and runtime environments—such as
 	// browser or node.js.
-	"browser" : false, // Standard browser globals e.g. `window`, `document`.
+	"browser" : true, // Standard browser globals e.g. `window`, `document`.
 	"couch" : false, // Enable globals exposed by CouchDB.
 	"devel" : false, // Allow development statements e.g. `console.log();`.
 	"dojo" : false, // Enable globals exposed by Dojo Toolkit.
@@ -112,10 +112,6 @@
 	// [4]: http://www.jshint.com/options/
 	 
 	"maxerr" : 100, // Maximum errors before stopping.
-	"predef" : [ // Extra globals.
-	//"exampleVar",
-	//"anotherCoolGlobal",
-	//"iLoveDouglas"
-	]
+	"predef" : ["angular"]
 	//,	"indent" : 2 // Specify indentation spacing
 }

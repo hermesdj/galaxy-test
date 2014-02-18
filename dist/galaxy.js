@@ -71,8 +71,8 @@ angular.module('galaxy').directive('galaxySystem', function($interval, $document
 				$document.unbind('mouseup', mouseup);
 			};
 			function mousemove(event){
-				dy = event.pageY - startY;
-				dx = event.pageX - startX;
+				var dy = event.pageY - startY;
+				var dx = event.pageX - startX;
 				$scope.move(dx, dy);
 			};
 			$scope.move = function(dx, dy){

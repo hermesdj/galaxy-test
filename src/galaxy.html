@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='galaxy'>
 	<head>
+		<script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="../bower_components/hamsterjs/hamster.js"></script>
+		<script type="text/javascript" src="../bower_components/angular-mousewheel/mousewheel.js"></script>
 		<script type="text/javascript" src="pixastic.custom.js"></script>
+		<script type="text/javascript" src="galaxy.js"></script>
+		<script type="text/javascript" src="test.js"></script>
 		<style type="text/css">
 			html,body {
 				width: 100%;
@@ -12,93 +17,18 @@
 			}
 		</style>
 	</head>
-	<body>
-		<canvas id="canvas"></canvas>
+	<body ng-controller='GalaxyGeneratorController'>
+		<canvas id="result"></canvas>
+		<canvas style="display:none;" id="canvas"></canvas>
 		<img id="milky" src="img/milky4.jpg" />
+		
+		<div>
+			<span>{{time}} ms</span><span><input type="number" ng-model="q" step="10" ng-change="analyse()" /></span><br />
+			<div ng-repeat="option in options" style="float:left;margin:5px;border:1px solid black; padding: 3px;">
+				<p>min : <input type="number" min="0" max="255" ng-model="option.min" disabled/></p>
+				<p>max : <input type="number" min="0" max="255" ng-model="option.max" ng-change="options[$index + 1].min = option.max; analyse()" /></p>
+				<p>color : <input type="text" min="0" max="255" ng-model="option.color" /></p>
+			</div>
+		</div>
 	</body>
-	<script type="text/javascript">
-	
-			function subdivise(ctx, x, y, width, height, mingrey, maxgrey, text, rect){
-				var result = [];
-				for(var i = 0; i < 10; i++){
-					for(var j = 0; j < 10; j++){
-						var w = width / 10, h = height / 10;
-						var dx = x + i * w, dy = y + j * h;
-						var imgData = ctx.getImageData(dx, dy, w, h);
-						var count = 0;
-						for(var k = 0; k < imgData.data.length; k+=4){
-							count += imgData.data[k] * 3;
-						}
-						count = Math.ceil(count / imgData.data.length);
-						if(count > mingrey && count <= maxgrey){
-							if(rect){ctx.fillRect(dx, dy, w, h)};
-							result.push({x: i, y: j, dx: dx, dy: dy});
-							if(text){
-								ctx.fillText(i + ", " + j, dx + w / 2, dy + h / 2 - 15);
-								ctx.fillText(count, dx + w / 2, dy + h / 2);
-								ctx.fillText(Math.ceil(dx) + ", " + Math.ceil(dy), dx + w / 2, dy + h / 2 + 15);
-							}
-						}
-					}
-				}
-				return result;
-			}		
-	
-			var c = document.getElementById('canvas');
-			var ctx= c.getContext("2d");
-			var img = document.getElementById('milky');
-			var img = Pixastic.process(img, 'desaturate', {average: true});
-			
-			c.width = img.width;
-			c.height = img.height;
-			ctx.drawImage(img, 0, 0, c.width, c.height);
-			
-			ctx.textAlign='center';
-			ctx.textBaseline = 'middle';
-			ctx.strokeStyle = 'white';
-			ctx.fillStyle = 'white';
-			ctx.globalAlpha = 0.5;
-			
-			result = subdivise(ctx, 0, 0, c.width, c.height, 10, 255, false, false);
-			
-			for(var i = 0; i < result.length; i++){
-				var first = result[i];
-				subdivise(ctx, first.x * c.width / 10, first.y * c.width / 10, c.width / 10, c.height / 10, 120, 255, false, true);
-				
-			}
-			
-			ctx.strokeStyle = 'lightblue';
-			ctx.fillStyle = 'lightblue';
-			
-			for(var i = 0; i < result.length; i++){
-				var first = result[i];
-				subdivise(ctx, first.x * c.width / 10, first.y * c.width / 10, c.width / 10, c.height / 10, 85, 120, false, true);
-			}
-			
-			ctx.strokeStyle = 'blue';
-			ctx.fillStyle = 'blue';
-			
-			for(var i = 0; i < result.length; i++){
-				var first = result[i];
-				subdivise(ctx, first.x * c.width / 10, first.y * c.width / 10, c.width / 10, c.height / 10, 55, 85, false, true);
-			}
-			
-			ctx.strokeStyle = 'lightgrey';
-			ctx.fillStyle = 'lightgrey';
-			
-			for(var i = 0; i < result.length; i++){
-				var first = result[i];
-				subdivise(ctx, first.x * c.width / 10, first.y * c.width / 10, c.width / 10, c.height / 10, 40, 55, false, true);
-			}
-			
-			ctx.strokeStyle = 'grey';
-			ctx.fillStyle = 'grey';
-			
-			for(var i = 0; i < result.length; i++){
-				var first = result[i];
-				subdivise(ctx, first.x * c.width / 10, first.y * c.width / 10, c.width / 10, c.height / 10, 25, 40, false, true);
-			}
-			
-			
-	</script>
 </html>
